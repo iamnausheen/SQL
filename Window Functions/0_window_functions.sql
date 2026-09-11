@@ -242,9 +242,10 @@ WHERE t.name = branch_topper;
 SELECT branch, name FROM (SELECT *, 
 FIRST_VALUE(name) OVER w AS 'branch_topper',
 FIRST_VALUE(marks) OVER w AS 'toppper_marks'
-FROM marks) t
-WHERE t.name = branch_topper
-WINDOW w AS (PARTITION BY branch ORDER BY marks DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING);
+FROM marks
+WINDOW w AS (PARTITION BY branch ORDER BY marks DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) t
+WHERE t.name = branch_topper;
+
 
 # Find the last guy of each branch - same as above - order in ascending order
 # or last_value with descending order
